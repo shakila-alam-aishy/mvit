@@ -78,7 +78,7 @@ _C.AUG.RE_SPLIT = False
 _C.MIXUP = CfgNode()
 
 # Whether to use mixup.
-_C.MIXUP.ENABLE = True
+_C.MIXUP.ENABLE = False
 
 # Mixup alpha.
 _C.MIXUP.ALPHA = 0.8
@@ -123,10 +123,10 @@ _C.MODEL = CfgNode()
 _C.MODEL.MODEL_NAME = "MViT"
 
 # The number of classes to predict for the model.
-_C.MODEL.NUM_CLASSES = 1000
+_C.MODEL.NUM_CLASSES = 2
 
 # Loss function.
-_C.MODEL.LOSS_FUNC = "soft_cross_entropy"
+_C.MODEL.LOSS_FUNC = "cross_entropy"
 
 
 # Dropout rate before final projection in the backbone.
@@ -330,7 +330,7 @@ _C.SOLVER.LAYER_DECAY = 1.0
 # ---------------------------------------------------------------------------- #
 
 # Number of GPUs to use (applies to both training and testing).
-_C.NUM_GPUS = 8
+_C.NUM_GPUS = 1
 
 # Number of machine to use for the job.
 _C.NUM_SHARDS = 1

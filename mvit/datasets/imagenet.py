@@ -54,7 +54,10 @@ class Imagenet(torch.utils.data.Dataset):
         logger.info("{} data path: {}".format(self.mode, split_path))
         # Images are stored per class in subdirs (format: n<number>)
         split_files = pathmgr.ls(split_path)
-        self._class_ids = sorted(f for f in split_files if re.match(r"^n[0-9]+$", f))
+        self._class_ids = sorted(
+          f for f in split_files
+          if pathmgr.isdir(os.path.join(split_path, f))
+        )
         # Map ImageNet class ids to contiguous ids
         self._class_id_cont_id = {v: i for i, v in enumerate(self._class_ids)}
         # Construct the image db
