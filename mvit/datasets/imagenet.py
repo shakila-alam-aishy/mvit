@@ -50,7 +50,15 @@ class Imagenet(torch.utils.data.Dataset):
     def _construct_imdb(self):
         """Constructs the imdb."""
         # Compile the split data path
-        split_path = os.path.join(self.data_path, self.mode)
+        # Compile the split data path
+        if self.mode == "train":
+          folder = "training"
+        elif self.mode in ["val", "test"]:
+          folder = "testing"
+        else:
+          folder = self.mode
+
+        split_path = os.path.join(self.data_path, folder)
         logger.info("{} data path: {}".format(self.mode, split_path))
         # Images are stored per class in subdirs (format: n<number>)
         split_files = pathmgr.ls(split_path)
