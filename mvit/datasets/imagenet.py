@@ -43,6 +43,7 @@ class Imagenet(torch.utils.data.Dataset):
             self.cfg.DATA.PATH_TO_PRELOAD_IMDB,
             f"{self.mode}.json" if self.mode != "test" else "val.json",
         )
+        logger.info("{} data path: {}".format(self.mode, split_path))
         with pathmgr.open(split_path, "r") as f:
             data = f.read()
         self._imdb = json.loads(data)
@@ -50,8 +51,12 @@ class Imagenet(torch.utils.data.Dataset):
     def _construct_imdb(self):
         """Constructs the imdb."""
         # Compile the split data path
-        split_path = os.path.join(self.data_path, self.mode)
-        logger.info("{} data path: {}".format(self.mode, split_path))
+        if self.mode == "train":
+            split = "training"
+        else:  # val or test
+            split = "testing"
+
+        split_path = os.path.join(self.data_path, split)
         # Images are stored per class in subdirs (format: n<number>)
         split_files = pathmgr.ls(split_path)
         self._class_ids = sorted(
