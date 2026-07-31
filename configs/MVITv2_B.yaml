@@ -8,9 +8,21 @@ MVIT:
   POOL_Q_STRIDE: [[0, 1, 1], [1, 1, 1], [2, 2, 2], [3, 1, 1], [4, 1, 1], [5, 2, 2], [6, 1, 1], [7, 1, 1], [8, 1, 1], [9, 1, 1], [10, 1, 1], [11, 1, 1], [12, 1, 1], [13, 1, 1], [14, 1, 1], [15, 1, 1], [16, 1, 1], [17, 1, 1], [18, 1, 1], [19, 1, 1], [20, 1, 1], [21, 2, 2], [22, 1, 1], [23, 1, 1]]
 SOLVER:
   BASE_LR_SCALE_NUM_SHARDS: True
-  BASE_LR: 0.00025
+  BASE_LR: 0.0001
   LR_POLICY: cosine
-  MAX_EPOCH: 300
+  MAX_EPOCH: 50
   WEIGHT_DECAY: 0.05
   OPTIMIZING_METHOD: adamw
   CLIP_GRAD_L2NORM: 1.0
+
+MODEL:
+  NUM_CLASSES: 2
+
+TRAIN:
+  BATCH_SIZE: 8
+
+TEST:
+  BATCH_SIZE: 4
+
+MIXUP:
+  ENABLE: False
