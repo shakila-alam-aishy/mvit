@@ -202,7 +202,12 @@ def eval_epoch(val_loader, model, val_meter, cur_epoch, cfg):
 
     # Log epoch stats.
     val_meter.log_epoch_stats(cur_epoch)
+
+    current_err = val_meter.num_top1_mis / val_meter.num_samples
+
     val_meter.reset()
+
+    return current_err 
 
 
 def train(cfg):
@@ -251,6 +256,7 @@ def train(cfg):
     logger.info("Start epoch: {}".format(start_epoch + 1))
 
     epoch_timer = EpochTimer()
+    best_top1_err = 100.0
     for cur_epoch in range(start_epoch, cfg.SOLVER.MAX_EPOCH):
         # Shuffle the dataset.
         loader.shuffle_dataset(train_loader, cur_epoch)
@@ -298,8 +304,39 @@ def train(cfg):
             )
         # Evaluate the model on validation set.
         if is_eval_epoch:
-            eval_epoch(val_loader, model, val_meter, cur_epoch, cfg)
+            cur_top1_err = eval_epoch(
+                val_loader,
+                model,
+                val_meter,
+               cur_epoch,
+              cfg,
+            )
 
+            if cur_top1_err < best_top1_err:
+                best_top1_err = cur_top1_err
+
+                best_path = os.path.join(
+                    cfg.OUTPUT_DIR,
+                    "checkpoints",
+                    "best_checkpoint.pyth",
+                )
+
+                checkpoint = {
+                    "epoch": cur_epoch,
+                    "model_state": model.module.state_dict()
+                    if cfg.NUM_GPUS > 1 else model.state_dict(),
+                    "optimizer_state": optimizer.state_dict(),
+                    "cfg": cfg.dump(),
+                }
+
+                if scaler is not None:
+                    checkpoint["scaler_state"] = scaler.state_dict()
+
+                torch.save(checkpoint, best_path)
+
+                logger.info(
+                    f"Saved BEST checkpoint at epoch {cur_epoch+1}"
+                )
 
 def test(cfg):
     """
