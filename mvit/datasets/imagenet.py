@@ -52,9 +52,11 @@ class Imagenet(torch.utils.data.Dataset):
         """Constructs the imdb."""
         # Compile the split data path
         if self.mode == "train":
-            split = "training"
-        else:  # val or test
-            split = "testing"
+            split = "train"
+        elif self.mode == "val":
+            split = "valid"
+        else:  # test
+            split = "test"
 
         split_path = os.path.join(self.data_path, split)
         # Images are stored per class in subdirs (format: n<number>)
