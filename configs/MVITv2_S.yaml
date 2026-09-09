@@ -35,7 +35,7 @@ TRAIN:
   CHECKPOINT_PERIOD: 10
   AUTO_RESUME: False
 
-  CHECKPOINT_FILE_PATH: "/kaggle/input/mvitv2-s-in1k/MViTv2_S_in1k (1).pyth"
+  CHECKPOINT_FILE_PATH: "/kaggle/input/datasets/shakilaalam/mvitv2-s-in1k/MViTv2_S_in1k (1).pyth"
 
   CHECKPOINT_EPOCH_RESET: True
   MIXED_PRECISION: True
