@@ -35,7 +35,7 @@ TRAIN:
   CHECKPOINT_PERIOD: 10
   AUTO_RESUME: False
 
-  CHECKPOINT_FILE_PATH: "/kaggle/input/datasets/shakilaalam/mvitv2-s-in1k/MViTv2_S_in1k (1).pyth"
+  CHECKPOINT_FILE_PATH: "/content/drive/MyDrive/MViTv2_S_in1k (1).pyth"
 
   CHECKPOINT_EPOCH_RESET: True
   MIXED_PRECISION: True
@@ -53,7 +53,7 @@ DATA_LOADER:
   NUM_WORKERS: 2
 
 DATA:
-  PATH_TO_DATA_DIR: "/kaggle/input/datasets/shakilaalam/real-autism-dataset/Real_Autism_Dataset"
+  PATH_TO_DATA_DIR: "/content/drive/MyDrive/Real_Autism_Dataset"
   PATH_TO_PRELOAD_IMDB: ""
 
   TRAIN_CROP_SIZE: 224
