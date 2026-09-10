@@ -31,7 +31,6 @@ MVIT:
 SOLVER:
   BASE_LR_SCALE_NUM_SHARDS: True
   BASE_LR: 0.0001
-
   LR_POLICY: cosine
   MAX_EPOCH: 50
 
@@ -55,16 +54,23 @@ MODEL:
 
 
 TRAIN:
+  ENABLE: True
+  DATASET: imagenet
   BATCH_SIZE: 8
   EVAL_PERIOD: 1
   CHECKPOINT_PERIOD: 10
 
   AUTO_RESUME: False
+
+  CHECKPOINT_FILE_PATH: "/content/drive/MyDrive/MViTv2_T_in1k.pyth"
   CHECKPOINT_EPOCH_RESET: True
+
   MIXED_PRECISION: True
 
 
 TEST:
+  ENABLE: True
+  DATASET: imagenet
   BATCH_SIZE: 8
   CHECKPOINT_FILE_PATH: ""
 
@@ -75,3 +81,15 @@ MIXUP:
 
 DATA_LOADER:
   NUM_WORKERS: 2
+
+
+DATA:
+  PATH_TO_DATA_DIR: "/content/drive/MyDrive/Real_Autism_Dataset"
+  PATH_TO_PRELOAD_IMDB: ""
+
+  TRAIN_CROP_SIZE: 224
+  TEST_CROP_SIZE: 224
+  VAL_CROP_RATIO: 0.875
+
+  MEAN: [0.485, 0.456, 0.406]
+  STD: [0.229, 0.224, 0.225]
