@@ -1,27 +1,27 @@
 MVIT:
-  DROPPATH_RATE: 0.3
+  DROPPATH_RATE: 0.1
   DEPTH: 24
 
   DIM_MUL:
-    - [2, 2.0]
-    - [5, 2.0]
-    - [21, 2.0]
+    - [1, 2.0]
+    - [3, 2.0]
+    - [14, 2.0]
 
   HEAD_MUL:
-    - [2, 2.0]
-    - [5, 2.0]
-    - [21, 2.0]
+    - [1, 2.0]
+    - [3, 2.0]
+    - [14, 2.0]
 
   POOL_KVQ_KERNEL: [3, 3]
   POOL_KV_STRIDE_ADAPTIVE: [4, 4]
 
   POOL_Q_STRIDE:
     - [0, 1, 1]
-    - [1, 1, 1]
-    - [2, 2, 2]
-    - [3, 1, 1]
+    - [1, 2, 2]
+    - [2, 1, 1]
+    - [3, 2, 2]
     - [4, 1, 1]
-    - [5, 2, 2]
+    - [5, 1, 1]
     - [6, 1, 1]
     - [7, 1, 1]
     - [8, 1, 1]
@@ -30,14 +30,14 @@ MVIT:
     - [11, 1, 1]
     - [12, 1, 1]
     - [13, 1, 1]
-    - [14, 1, 1]
+    - [14, 2, 2]
     - [15, 1, 1]
     - [16, 1, 1]
     - [17, 1, 1]
     - [18, 1, 1]
     - [19, 1, 1]
     - [20, 1, 1]
-    - [21, 2, 2]
+    - [21, 1, 1]
     - [22, 1, 1]
     - [23, 1, 1]
 
@@ -45,12 +45,13 @@ MVIT:
 SOLVER:
   BASE_LR_SCALE_NUM_SHARDS: True
   BASE_LR: 0.0001
-
   LR_POLICY: cosine
+
   MAX_EPOCH: 50
 
   WARMUP_EPOCHS: 5.0
-  WARMUP_START_LR: 1e-6
+  WARMUP_START_LR: 0.000001
+
   COSINE_AFTER_WARMUP: True
   COSINE_END_LR: 0.000001
 
@@ -59,28 +60,59 @@ SOLVER:
   CLIP_GRAD_L2NORM: 1.0
 
 
-DATA_LOADER:
-  NUM_WORKERS: 2
+NUM_GPUS: 1
 
 
 MODEL:
   NUM_CLASSES: 2
+  LOSS_FUNC: cross_entropy
+  HEAD_ACT: softmax
 
 
 TRAIN:
+  ENABLE: True
+  DATASET: imagenet
   BATCH_SIZE: 8
+
   EVAL_PERIOD: 1
   CHECKPOINT_PERIOD: 10
 
   AUTO_RESUME: False
+
+  CHECKPOINT_FILE_PATH: "/content/drive/MyDrive/MViTv2_B_in1k.pyth"
+
   CHECKPOINT_EPOCH_RESET: True
+
   MIXED_PRECISION: True
 
 
 TEST:
+  ENABLE: True
+  DATASET: imagenet
   BATCH_SIZE: 8
+
   CHECKPOINT_FILE_PATH: ""
 
 
 MIXUP:
   ENABLE: False
+
+
+DATA_LOADER:
+  NUM_WORKERS: 2
+
+
+DATA:
+  PATH_TO_DATA_DIR: "/content/drive/MyDrive/Real_Autism_Dataset"
+
+  PATH_TO_PRELOAD_IMDB: ""
+
+  TRAIN_CROP_SIZE: 224
+  TEST_CROP_SIZE: 224
+  VAL_CROP_RATIO: 0.875
+
+  MEAN: [0.485, 0.456, 0.406]
+  STD: [0.229, 0.224, 0.225]
+
+
+OUTPUT_DIR: "/content/drive/MyDrive/MViTv2_Checkpoints/B"
